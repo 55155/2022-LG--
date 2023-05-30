@@ -1,0 +1,566 @@
+용어 정리
+
+대회 소개
+
+https://aifactory.space/competition/detail/2067
+
+
+ROI
+Region of interest
+
+Region Proposal
+
+https://pillow.readthedocs.io/en/stable/reference/ImageOps.html
+
+PIL 자료들
+
+
+Contrast
+
+이미지 대비를 최대화(정규화)합니다. 이 기능은 입력 이미지(또는 마스크 영역)의 히스토그램을 계산하고 히스토그램에서 가장 밝은 픽셀과 가장 어두운 픽셀의 컷오프 비율을 제거한 다음 가장 어두운 픽셀이 검은색(0)이 되고 가장 밝은 픽셀이 흰색(25)이 되도록 이미지를 다시 매핑합니다
+
+클래스내에 정의된 함수들을 메소드라고 한다.
+__로 시작해서 __로 끝나는 메소드를 매직 메소드라고한다.
+__init__ :  인스턴스 실행시 인터프리터에 의해 자동으로 호출되는 메소드
+
+파이썬에서의 함수는 function class 의 객체이다.
+
+https://wikidocs.net/83755
+
+매직 메소드 : 객체가 변수에 접근할 때 바로 호출
+
+Numpy
+
+https://numpy.org/doc/stable/reference/generated/numpy.zeros.html
+
+
+Pooling Layer
+
+Pooling : correction이 낮은 레이어를 삭제한다.
+
+Numpy.zeros() 
+
+shape
+
+int or tuple of ints
+Shape of the new array, e.g., (2, 3) or 2.
+
+dtypedata-type, optional
+
+The desired data-type for the array, e.g., numpy.int8. Default is numpy.float64.
+
+Ground-truth : 우리의 모델이 우리가 원하는 답으로 에측해주길 바라는 답
+답에 가까운 모델
+
+데이터의 수가 많으면 최대한 Train에 많이 사용하자
+
+validation 데이터 없이 train / test로만 분리하게 되면
+train으로 만든 모델을 검증하기 위해 우리는 test data만 사용할 것입니다.
+이때, 고정된 test data만 가지고 모델의 성능을 확인하고, 파라미터를 수정하고, 또 확인하고, 수정하고,....
+이 과정을 반복하게 되면 결국 최종 모델은 test data에만 성능이 좋은 모델이 될 것입니다.
+즉, test data에 과적합(Overfit)이 되어 다른 unseen data가 들어왔을 때는 예측력이 떨어질 수 있습니다.
+ 
+이때 나오는 개념이 Validation입니다. 
+Train / Validation / Test data 3가지는 각각 모델을 학습하고 검증하고 평가하는데 목적이 다릅니다. 
+ 
+* Train *
+- 모델을 학습하기 위한 데이터셋으로 이때 학습은 최적의 파라미터를 찾는 것입니다.
+- 즉, Train data는 오직 학! 습! 을 위한 데이터셋 
+ 
+* Validation * 
+- 학습이 이미 완료된 모델을 검증하기 위한 데이터셋입니다. 
+- 학습이 된 여러 가지 모델 중 가장 좋은 하나의 모델을 고르기 위한 데이터셋입니다. 
+- 학습 과정에 어느 정도 관여를 한다고 볼 수 있습니다. 
+- 하지만 Validation 데이터 자체가 학습에 직접적으로 관여하는 것은 아님 
+ 
+* test * 
+- 모델의 '최종 성능'을 평가하기 위한 데이터셋 
+- 학습 과정에 관여를 하지 않음!!!
+
+정리하면 테스트 셋으로만 테스트 과정을 진행했을 때 이 세트에만 너무 적합하게 되면 만약 보지 못한 데이터가 들어왔을 때 오류가 뜰수 있음
+
+메타데아터 : 데이터에 대한 데이터, 어떤 목적을 가지고 만들어진 데이터, 다른 데이터를 설명해주는 데이터, 콘텐츠에 부여되는 데이터
+
+Annotation : 어노테이션이란 데이터셋에 메타데이터를 추가하는 작업을 말한다. 태그 형식으로 이미지 텍스트 비디오를 비롯한 모든 유형의 데이터에 추가가 가능하다.
+
+Semantic Segmentation
+이미지의 모든 픽셀을 클래스로 분류해야하므로 많은 작업이 필요하다.
+
+
+U-net 구조
+https://velog.io/@guide333/U-Net-%EC%A0%95%EB%A6%AC
+
+-biomedical image segmentation 
+-인코더, 디코더
+즉, 어떤 대상을 목적을 가지고 처리하기 위해 처리를 위한 방식으로 변환하는 것이 인코더라고 한다. 그리고 인코더 된 대상으로부터 원래의 형태로 변환하는 것을 디코더라고 한다.
+-세밀한 분류가 필요하다.
+-encoder spatial dimension을 줄여가며 고차원의 semantic정보를 추출
+-decoder에서는 encoder에서 줄여간 spacial dimansion을  다시 복구해가는 과정
+-encoder와 decoder의 차이를 비교하여 검증을 더욱 정교화 시킬수 있음.
+
+Batch, epoch
+
+https://bskyvision.com/entry/%EB%B0%B0%EC%B9%98batch%EC%99%80-%EC%97%90%ED%8F%AC%ED%81%ACepoch%EB%9E%80
+
+Batch
+ 딥러닝에서 배치는 모델의 가중치를 한번 업데이트시킬 때 사용되는 샘플들의 묶음을 의미합니다. 만약에 총 1000개의 훈련 샘플이 있는데, 배치 사이즈가 20이라면 20개의 샘플 단위마다 모델의 가중치를 한번씩 업데이트시킵니다.
+
+
+layer.Conv2D() —> 
+
+kernel_size(tuple):
+
+          * filter(kernel)의 size
+          * (height, widhth)
+          
+padding(str):
+
+          * 합성곱 연산을 수행하기 전, 입력데이터 주변을 특정값으로 채워 늘리는 것
+          * 입력값으로 0 | 'valid' | 'same' 값을 선택할 수 있다.
+input_shape(tuple):
+          * conv2d Layer에 입력되는 이미지의 크기
+          * (height, width, channel|depth) 로, 3개의 원소로 구성
+          * channel|depth는 컬러이미지(R,G,B)의 경우 3, 흑백이미지의 경우 1값을 갖음
+
+stride : 
+	검색할 간격 stride가 높을 수록 output특징맵의 차원수가 작아짐
+
+
+정리 : 첫번째 인자, 컨볼루션 필터 수
+	두번째인자 : 컨볼루션 커널의 (행렬)
+	input_shape : 샘플 수를 제외한 입력 형태를 정의 합니다. 모델에서 첫 레이어일 때만 정의하면 됩니다.
+    * (행, 열, 채널 수)로 정의합니다. 흑백영상인 경우에는 채널이 1이고, 컬러(RGB)영상인 경우에는 채널을 3으로 설정합니다.
+	
+	padding : 경계 처리 방법을 정의합니다.`
+    * ‘valid’ : 유효한 영역만 출력이 됩니다. 따라서 출력 이미지 사이즈는 입력 사이즈보다 작습니다.
+    * ‘same’ : 출력 이미지 사이즈가 입력 이미지 사이즈와 동일합니다.
+
+-batch normalization
+
+배치 정규화batch normalization는 그레이디언트 소실gradient vanishing과 폭주exploding 문제를 해결하기 위해 제안되었습니다
+https://jehyunlee.github.io/2020/12/01/Python-DL-4-bn/
+블로그에서 보면 알 수 있듯, normalization은 RGB 분포를 파악하여, 정규화 시킨다. 이미지가 대부분 흐려지는 이유ㅜ는 0-255의 값을 정규분포로써 확 줄이기 떄문에, 채도가 낮아지는것
+
+Convolution 에서 사용되는 몇 가지 용어들이 있습니다. 필터는 커널(kernel)이라고 불리기도 합니다. 간격(stride)은 한 필터에서 다음 필터로 갈 때 몇 칸을 띄어서 가는지를 의미합니다. 패딩(zero padding)은 양 옆으로 몇 개씩의 0을 붙일지를 이야기합니다.
+
+ Featuriztion : 피처화
+우리가 원하는 객체의 정보를 클래스로 분류하는 것 
+EX
+
+Service Level Objectives
+
+SLO : 사용자의 요구사항
+
+
+Receptive Field Size
+
+CNN에서 Receptive field는 각 단계의 입력 이미지에 대해 하나의 필터가 커버할 수 있는 이미지 영역의 일부를 뜻한다.
+
+
+* Kernel Size : 커널 사이즈는 컨볼루션의 View 를 결정한다. 보통 2차원에서 3x3 의 pixel 로 사용한다.
+* Stride : 스트라이드는 이미지를 스캔할 때 커널의 스텝 사이즈를 결정하게 된다. 기본 값은 1이지만, 보통 Max Pooling 과 비슷하게 이미지를 다운 샘플링 하기 위해 스트라이드 값을 2로 사용 할 수 있다.
+* Padding : 패딩은 샘플 테두리를 어떻게 조절할지를 결정한다. 패딩된 컨볼루션은 입력과 동일한 출력 차원을 유지하지만, 패딩되지 않은 컨볼루션은 커널 사이즈가 1보다 큰 경우 픽셀이 일부 잘려나가는 현상이 생겨버린다. 
+* Input & Output Channels : 컨볼루션 레이어는 입력 채널의 특정 수(I)를 받아 출력 채널의 특정수(O)로 계산한다. 이런 레이어에서 필요한 파라미터의 수는 I*O*K로 계산할 수 있으며, K는 커널의 수이다.
+* 
+
+출처: https://eehoeskrap.tistory.com/431 [Enough is not enough:티스토리]
+
+
+>>> from glob import glob
+>>> glob('*.exe')               # 현재 디렉터리의 .exe 파일
+['python.exe', 'pythonw.exe']
+>>> glob('*.txt')               # 현재 디렉터리의 .txt 파일
+['LICENSE.txt', 'NEWS.txt']
+
+
+#! /usr/bin/env python
+import os
+
+print("join(): " + os.path.join("/A/B/C", "file.py"))
+
+join(): /A/B/C/file.py
+
+Convolution 에 대한 내용
+
+1. Convolution Neural Network 에 대한 설명 및 용어 정리
+https://rubber-tree.tistory.com/entry/%EB%94%A5%EB%9F%AC%EB%8B%9D-%EB%AA%A8%EB%8D%B8-CNN-Convolutional-Neural-Network-%EC%84%A4%EB%AA%85
+
+  2. Convolution Neural Network 의 종류
+
+https://eehoeskrap.tistory.com/431#--%--Dilated%--Convolutions%---atrous%--convolution-
+
+
+The Pascal-based P100 provides 1.6x more double-precision flops than the Kepler-generation K80: 4.7 teraflops for the PCIe-based P100 versus 2.91 teraflops for the K80. Further, “P100's stacked memory features 3x the memory bandwidth of the K80, an important factor for memory-intensive applications,” says Xcelerit.2017. 4. 20.
+
+os.getcwd() # 현재 작업 디렉토리 확인
+os.listdir() # 지정한 디렉토리 내의 모든 파일과 디렉토리의 리스트를 리턴 
+
+
+-Score
+
+Sys.argv[1]
+
+https://www.youtube.com/watch?v=rLG7Tz6db0w
+
+Score에 어느 파일이 들어가야하는가.
+Sample submission 파일을 만들어야함
+
+1. 딕셔너리 형태여야 함
+2. Key 값이 ‘annotations’
+
+predict.bbox.json 이나, predict.segm.json 에는 해당 키값이 존재하지 않는다.
+-threshold
+threshold의 의미는 분류기준이다.
+label(polygon).json, label_train.json에 키값들이. 존재
+-config
+train할 모델에 대한 정보를 저장하는 것
+Human Motion Prediction RNN코드에서 Config 부분에 대한 설명이다.훈련과 평가 스크립트에 의해서 사용될 Configuration 부분이다. 즉, 사용자가 지정해주어야 하는 파라미터 값들을 모아 놓았다. 
+<=> 피처 : 클래스
+
+가중치란?
+각 입력 신호가 결과 출력에 미치는 중요도를 조절하는 매개변수
+ 
+편향이란?
+뉴런의 활성화를 조절하는 매개변수
+뉴런의 활성화 조건을 설정하는 매개변수
+
+Threshold
+
+
+런 렝스 부호화 (Run-length encoding)
+RLE 
+
+SOTA
+
+https://paperswithcode.com/sota/semantic-segmentation-on-cityscapes
+2022.5.25
+Tree (Directory 구조, 리눅스의 명령어.)
+Root (리눅스의 FS에서 최상위 디렉토리)
+Mount (Hard Driver 올림)
+나무가 있다면. 산위에 나무가 있다.
+
+-json : java Script object notation
+JSON은 자바스크립트 객체 표기법의 약자이다. 데이터를 저장하고 교환하는 데 사용되는 가벼운 데이터 교환 형식입니다. 이것은 언어 독립적인 형식이고 본질적으로 자기 서술적이기 때문에 매우 이해하기 쉽다. 파이썬에는 JSON 데이터를 지원하는 내장 패키지가 있는데, 이를 json이라고 한다. JSON의 데이터는 곱슬머리 괄호 {} 사이에 둘러싸인 키-값 매핑으로 구성된 따옴표 문자열로 표현된다.
+
+
+-for json
+
+dump() 함수: Python 객체를 JSON 파일에 저장하기
+
+dumps() 함수: Python 객체를 JSON 문자열로 변환
+
+loads() 함수: JSON 문자열을 Python 객체로 변환
+
+
+Mask R CNN
+
+Mask R-CNN은 기본적으로 Faster R-CNN의 확장이다.Faster R-CNN은 물체 감지 작업에 널리 사용되며, 주어진 이미지에 대해 이미지의 각 객체에 대한 클래스 레이블 및 경계 상자 좌표를 반환한다.
+
+
+Mask R-CNN 프레임 워크는 Faster R-CNN을 기반으로 구축되었다. 따라서 주어진 이미지에 대해 Mask R-CNN은 각 객체의 클래스 레이블 및 경계 상자 좌표 외에도 객체 마스크를 반환한다.
+
+
+
+Base line code 바뀜
+
+변경전
+!pip install mmcv-full -f https://download.openmmlab.com/mmcv/dist/cu113/torch1.12.0/index.html 
+!git clone https://github.com/open-mmlab/mmdetection.git 
+%cd mmdetection
+!pip install -r /requirements/build.txt 
+!pip install mmdet
+
+변경후
+!pip install mmcv-full==1.6.0 -f https://download.openmmlab.com/mmcv/dist/cu113/torch1.12.0/index.html
+!git clone https://github.com/open-mmlab/mmdetection.git
+%cd mmdetection
+!pip install -r requirements/build.txt
+!pip install -v -e .
+!pip install mmdet
+
+
+-apt-get(Advanced Packaging Tool)은 우분투(Ubuntu)를 포함안 데비안(Debian)계열의 리눅스에서 쓰이는 팩키지 관리 명령어 도구입니다.
+
+
+-result
+
+방성진님 안녕하세요. 
+
+관련하여 내부 확인 완료하였으며
+sys.argv(1)은 정답파일, sys.argv(2)는 예측결과파일 입니다.
+
+감사합니다.
+인공지능팩토리 드림
+
+
+https://beok.tistory.com/46
+
+
+Mmdetection Config
+
+
+https://mmdetection.readthedocs.io/en/latest/tutorials/config.html
+
+Example mmcv.Config.fromfile
+https://programtalk.com/python-more-examples/mmcv.Config.fromfile/
+
+
+
+ImportError: libcublas.so.10.0: cannot open shared object file: No such file or directory
+
+http://ejklike.github.io/2019/08/19/insatall-tensorflow-2.0.0-beta1-in-ubuntu-with-cuda-10-1.html
+
+자신의 컴퓨터가 쿠다 버전이 높은 상태에서 cuda 버전이 낮은 상태의 github 를 돌리게 되면(예를 들면 alphapose, pytorch==1.2)
+
+현재 리눅스 CUDA : 11.7
+	대회 CUDA : 11.3
+	리눅스 torch : 1.12.0
+	대회 torch : 1.12.0
+
+'../_base_/models/mask_rcnn_r50_fpn.py',
+    '../_base_/datasets/coco_instance.py',
+    '../_base_/schedules/schedule_1x.py', '../_base_/default_runtime.py'
+
+
+Pre-training
+사전 학습 모델이란 기존에 자비어(Xavier) 등 임의의 값으로 초기화하던 모델의 가중치들을 다른 문제(task)에 학습시킨 가중치들로 초기화하는 방법이다.
+
+
+
+이때 사전 학습한 가중치를 활용해 학습하고자 하는 본 문제를 하위 문제(downstream task) 라 한다. 앞 예시에서 사전 학습한 모델인 감정 분석 문제가 사전 학습 문제(pre-train task) 가 된다.
+
+
+fine-tuning
+fine-tuning이란 사전 학습한 모든 가중치와 더불어 downstream task를 위한 최소한의 가중치를 추가해서 모델을 추가로 학습(미세 조정) 하는 방법이다.
+
+
+/mnt/home/seongjin/opt/cuda-11.3/
+
+
+ -   PATH includes /mnt/home/seongjin/opt/cuda-11.3/bin
+ -   LD_LIBRARY_PATH includes /mnt/home/seongjin/opt/cuda-11.3/lib64
+
+어제 내용 정리
+1. 영상 분할에 있어서 coco dataset 이 굉장히 유리 하기 때문에, 현 대회 주제에서의 SOTA 는 coco dataset인듯 합니다.
+2. 
+
+
+대회 주제 
+
+-
+
+
+Wget ==> curl 명령어와 비슷한 개념
+
+해당 URL에 접근하여 installation을 진행한다.
+
+우리가 쓰려고 하는 모델은 inception v4 이다.
+
+
+Prefix란 앞에 directory 앞에 붙은 첨자 같은것이다. 대부분 해당 directory나 file 
+
+Conda installation(2022.07.30) on Linux
+
+Linux gcc가 없다
+Gcc : linux의 병렬 프로그래밍 구조를 C언어로 바꿔주는것
+
+conda --version 
+#아나콘다 버전확인
+
+conda update conda
+#아나콘다 업데이트
+
+conda info --envs
+#가상환경 리스트 확인
+
+conda list
+#현재 activate 환경에 설치된 패키지 조회
+
+conda remove -n 환경이름 패키지이름
+#해당 경에 패키지 삭제
+
+conda search -n 환경이름 패키지이름
+#해당 환경에 패키지 찾기
+
+1. Wget https://repo.anaconda.com/archive/Anaconda3-2022.05-Linux-x86_64.sh
+64-Bit (x86) Installer (659 MB)
+https://www.anaconda.com/products/distribution : Latest Version
+
+2. bash Anaconda3-2019.10-Linux-x86_64.sh
+ -file install 
+
+3. vi ~/.bashrc
+PATH를 잘못 수정함 :
+ 
+————————————————————————————————————————————————————————————————————————
+
+4. bash Anaconda3=2019-10-Linux-x86_64.sh
+5. 재설치 Directory 명을 수정 == > 오류 해결
+6. source  ~/.bashrc
+
+Conda 가상환경을 나가려고 할 때 : conda deactivate
+Conda 가상환경을 실행시킬 때 : conda activate
+
+Export PATH=mnt/home/seongjin/anaconda3/bin
+
+PATH="$PATH:/usr/local/bin:/usr/bin:/bin"
+export PATH
+명령어가 있는 PATH : https://m.blog.naver.com/shjce93/220311546942
+해당 PATH에 들어가서 보면, 여러가지 명령어에 대한 정보들이 있음
+
+https://araikuma.tistory.com/102
+질문 : 단축어 명령들이 저장 되어 있는 것을 확인해 보고싶은데 해당 디렉토리는 비어 있다. 이유가 뭘까
+
+
+Conda 기반의 가상환경을 만들어 주기 위해서
+
+conda create --name 가상환경이름 --clone 복제할가상환경이름
+
+-conda 가상환경에서 CUDA Toolkit 다운로드
+
+
+-Conda 가상환경에서 cuda version 확인
+ 
+Conda list cudatoolkit
+
+
+-Conda pytorch 및 torchvision download
+
+conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
+
+
+Conda - Library install 
+
+Mmcv install 
+
+conda install -c esri mmcv-full —X :
+해결 방법 : 
+Conda 가 가지고 있는 모듈이 아니므로, pip 를 이용하여 깔아야 한다..
+1. Conda install pip
+2. Anaconda3\scirpts>> pip install ——https://dailyheumsi.tistory.com/331. 가상환경 만들고, 2. ls -l ‘which pip’3. 해당 폴더를 찾는 과정 cd /yes/envs/venv-conda/bin4.ls -l pip 
+3. Pip 설치 위치에 가서 pip install 을 이용하면 된다.
+
+2022.07.31 03.22 train.py 오류 수정 :  이유 : coco dataset 모델 다운을 받지 않은 듯함 
+2022.07.31 03.25 train.py 오류 
+- 원인 분석 : 같은 에러가 발생, 경로나 혹은 cocodataset 파일의 문제
+- 해결 방안 : set_config()가 정의 되어 있는 checkpoint/config.py 에서 cfg = set_config를 정의 함으로서 객체 생성 시에 경로 문제가 없게함.
+- 실패 (2022.07.31 03:32) : NameError : name ‘’cfg’ is not defined
+
+- 원인 분석 : cfg 가 전역적으로 생성된 객체가 아니라서 발생하는 오류 인것 같음
+- 해결 방안 : global 명령어를 통해 전역적으로 생성함.
+- 실패 (2022.07.31 03:35) : NameError : name ‘’cfg’ is not defined
+
+- 원인 분석 : global 명령어는 만약 함수 내부에서 전역변수를 사용할 때 사용하는 명령어이므로 Error 발생 
+- 해결 방안 : config.py 와 train.py 를 같은 디렉토리에 둠
+- 해결
+
+2022.07.31 03:40 train.py 오류2 발생 : FileNotFoundError: file "/mnt/home/seongjin/Codes/lg_test/mmdetection/checkpoint/configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco.py" does not exist
+- 원인 분석 : cocodataset에 해당 python 파일이 없는 듯함.
+- 해결 방법 : 해당 디렉토리에 들어가본다.
+- 해결 : 해당 디렉토리를 checkpoint로 옮김
+
+2022.07.31 03:47 train.py 오류3 발생 : FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp9udub9wr/tmpzzm0wdu7.py'
+- 원인 분석 : configs 에는 많은 파일이 있는 만큼 디렉토리를 mmdetection 에서 mmdection/에러가 나는 것으로 추정
+- 해결 실패 2022.07.31 04:08
+
+2022.08.01 02:42 train 오류 3 발생 
+
+- 해결방안 : 주최측의 Baseline 코드와 비교하여 디렉토리 수정
+- 실패
+- 해결방안 2 : 이상승 교수님이 제시한 coco data set 파일 자체가 손상을 입은 것 같다.
+- 해결 : 원본 cocodata set과 비교하여 파일 modify
+
+2022.08.01 03 : 58 traing 완료 
+
+2022.08.01 04:58 work directory 생성 : 문제 cfg라는 파일은 이미 빌드 되고 난후 세션이 종료되었다. 그 후 이 cfg에 저장된 값을 어떻게 불러와야 하는가.
+
+- 왜 Colab 즉, Jupiter notebook에서는 잘 돌아가는 것이 리눅스에서는 돌아가지 않는가. 또 이렇게 돌아간 model은 어디에 저장되어있는가.
+
+2022.08.01 19 : 34 Test.py 에러 1 발생  : TypeError: cuda(): argument 'device' (position 1) must be torch.device, not range
+
+- 해결방안 : 안에 module code 분석
+- 해결 : cfg.device_ids 가 colab의 경우에는 여러개이기 때문에,선언이 되어 있고, 골라서 사용할 수 있지만, 연구실 PC의 경우에는 GPU가 하나이므로 따로 선언이 되어 있지 않았다. 따라서
+- [cfg.device_ids] —> [0] 으로 바꾸어 GPU_NUMBER를  0으로 수정해준다.
+
+2022.08.02 16:12 Score.py 에러1 발생 :TypeError: list indices must be integers or slices, not str(52번째 줄)
+- 해결 방안 : 리스트 인덱싱 시에 str 형태로 정보가 들어간것으로 추정, 정수형 자료로 바꾸면 해결 될 듯함.
+- 2022.08.02 17:43 원인 분석 불가—> 사유 : json.load() 함수의 반환형은 dictionary 형태인데, 반환형이 리스트로 나옴
+
+https://stackoverflow.com/questions/24708634/python-and-json-typeerror-list-indices-must-be-integers-not-str
+
+
+_base_ = [
+    '../_base_/models/mask_rcnn_r50_fpn.py',
+    '../_base_/datasets/coco_instance.py',
+    '../_base_/schedules/schedule_1x.py', '../_base_/default_runtime.py'
+]
+
+Backboon  ; cocodataset
+
+
+-실행길이 인코딩(compressed RLE)
+
+https://www.techiedelight.com/ko/run-length-encoding-rle-data-compression-algorithm/
+
+2022.08.03 10:20 Score.py 에러1 발생 :TypeError: list indices must be integers or slices, not str(52번째 줄)
+- 해결 방안 : https://teamtreehouse.com/community/read-json-file-error-list-indices-must-be-integers-or-slices-not-str
+- 리스트 내부의 요소들을 확인해볼 필요가 있음.
+- 리스트 내부에 보여지는 딕셔너리 값들이 저장되어 있음 
+- Ex) gt[0][“images”] 이런식으로 출력해야함
+
+2022.08.03 11:32. Score.py 알게 된점 : Score를 내가 계산할 필요가 없다.
+- 이유 : score라는 key값이 현재 predict.segm.json 파일에 있다. 따라서 스코어 산정을 내가 할 필요가 없어보인다.
+- 따라서 submission.json 파일만 만들면 될 것으로 보인다.
+
+
+Ssh (원격접속) 파일을 local PC 로 가져오기
+https://peanut159357.tistory.com/66
+
+오류 발생
+https://stackoverflow.com/questions/29547087/scp-gives-not-a-regular-file
+
+
+https://ellune.tistory.com/53
+
+R-CNN 과 yolo의 차이
+
+
+https://github.com/open-mmlab/mmdetection
+
+MMdetection
+
+Keras : early stopping
+
+https://sevillabk.github.io/1-early-stopping/
+
+
+2022.08.03 16:38 train_mask2former.py 에러 1 발생
+AssertionError: The `num_classes` (80) in Mask2Former of MMDataParallel does not matches the length of `CLASSES` 1) in CocoDataset
+
+https://github.com/open-mmlab/mmdetection/issues/4828
+
+
+Train 과정에서 epoch_1 ~ epoch_10 까지의 정보가 남게 되고 
+이 파일들을 이용하여 json 파일을 추출한다.
+
+2022.08.04 00:11 train model 수정 : mask2former 모델사용 예정 0.02 가 나온 이유를 분석해보아야함.
+- Instance segmentation에서 높은 성능을 보이는 모델을 찾는중임.
+./mask2former_r50_lsj_8x2_50e_coco-panoptic.py
+- Instance segmentation 에서 9위를 차지하고 있는 tool
+
+num_things_classes = 80
+num_stuff_classes = 53
+num_classes = num_things_classes + num_stuff_classes
+
+/mnt/home/seongjin/Codes/lg_test/mmdetection/configs/mask2former/mask2former_r
+mask2former_swin-l-p4-w12-384-in21k_lsj_16x1_100e_coco-panoptic.py
+
+
+가중치 사용을 어디서하는지 질문 드림.
+pth
+
+
+https://ganghee-lee.tistory.com/42
+Yolact
+다음 사용 모델
+

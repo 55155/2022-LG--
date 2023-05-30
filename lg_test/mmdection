@@ -1,0 +1,74 @@
+import mmcv
+from mmcv.runner import load_checkpoint
+from mmdet.apis import inference_detector, show_result_pyplot
+from mmdet.models import build_detector
+from mmdet.apis import set_random_seed
+# mmcv 와 mmdetection 모듈 사용
+
+def set_config(): # 훈련 데이터 값 설정에 필요한 요소
+  # 사용할 모델 초기 py 설정
+  config = './configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco.py'
+
+  # config 불러오기
+  cfg = mmcv.Config.fromfile(config)
+
+  # config 에 base 기록
+  cfg.base = '../mask_rcnn/mask_rcnn_r50_fpn_1x_coco.py'
+
+  # 데이터셋 지정
+  cfg.dataset_type = 'CocoDataset'
+
+  # data_root는 사용자가 저장한 데이터가 있는 폴더 전까지
+  data_root = 'data/dataset/'
+
+  # class 설정
+  cfg.classes = ('Normal',)
+
+  # train, val, test 데이터셋에 대한 type, data_root, ann_file, img_prefix 설정
+
+  cfg.data.samples_per_gpu=1
+  cfg.data.workers_per_gpu=0
+
+  cfg.data.train.data_root = data_root 
+  cfg.data.train.ann_file = 'label(polygon)_train.json' 
+  cfg.data.train.img_prefix = 'train/'
+  cfg.data.train.classes = cfg.classes
+
+  cfg.data.val.data_root = data_root
+  cfg.data.val.ann_file = 'label(polygon)_train.json'
+  cfg.data.val.img_prefix = 'train/'
+  cfg.data.val.classes = cfg.classes
+
+  cfg.data.test.data_root = data_root
+  cfg.data.test.ann_file = 'test.json'
+  cfg.data.test.img_prefix = 'test/'
+  cfg.data.test.classes = cfg.classes
+
+  # 클래스 수 지정
+  cfg.model.roi_head.bbox_head.num_classes = 1
+  cfg.model.roi_head.mask_head.num_classes = 1
+
+  # 사전 훈련 모델 지정
+  cfg.checkpoint_config = dict(interval=1,out_dir='work_dirs/lg_mask/')
+
+  # 가중치 저장 위치
+  cfg.work_dir = './work_dirs/lg_cfg2/'
+
+  # 평가 지표로 설정
+  cfg.evaluation.metric = ['bbox', 'segm']
+
+  # epoch 설정
+  cfg.runner = dict(type='EpochBasedRunner', max_epochs=1)
+
+  # batch size 설정
+  cfg.auto_scale_lr = dict(enable=False, base_batch_size=16)
+
+  # gpu 설정 및 seed 설정
+  cfg.seed = 0
+  cfg.gpu_ids = range(1)
+  cfg.device='cuda'
+
+
+  return cfg
+
+
